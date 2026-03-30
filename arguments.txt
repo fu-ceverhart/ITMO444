@@ -1,0 +1,7 @@
+ami-00de3875b03809ec5
+t3.micro
+module-02-key
+sg-082c13fdf90e8bf34
+3
+install-env.sh
+module2-tag
