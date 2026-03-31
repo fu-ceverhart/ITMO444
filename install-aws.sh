@@ -5,3 +5,4 @@ unzip awscliv2.zip
 echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
 source ~/.bashrc
 aws --version
+aws configure
