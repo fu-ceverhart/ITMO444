@@ -7,5 +7,5 @@ install-env.sh
 module3-tag
 CDE
 CDE
-module-03-az-01
-module-03-az-02
+us-east-1a
+us-east-1b
