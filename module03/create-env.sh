@@ -44,6 +44,8 @@ TARGETARN=$(aws elbv2 create-target-group \
   --query "TargetGroups[*].TargetGroupArn" \
   --output=text)
 
+echo "TARGETARN=$TARGETARN"
+
 echo "Creating ELBv2 Elastic Load Balancer..."
 #https://awscli.amazonaws.com/v2/documentation/api/2.0.34/reference/elbv2/create-load-balancer.html
 ELBARN=$(aws elbv2 create-load-balancer \
@@ -80,7 +82,10 @@ aws ec2 run-instances \
 
 # Collect Instance IDs
 # https://stackoverflow.com/questions/31744316/aws-cli-filter-or-logic
-INSTANCEIDS=$(aws ec2 describe-instances --output=text --query 'Reservations[*].Instances[*].InstanceId' --filter "Name=instance-state-name,Values=running,pending")
+INSTANCEIDS=$(aws ec2 describe-instances --output=text \
+  --query 'Reservations[*].Instances[*].InstanceId' \
+  --filters "Name=instance-state-name,Values=running,pending" \
+             "Name=tag:Name,Values=$7")
 
 #https://awscli.amazonaws.com/v2/documentation/api/latest/reference/ec2/wait/instance-running.html
 echo "Waiting until instances are in the RUNNING state..."
@@ -96,7 +101,7 @@ if [ "$INSTANCEIDS" != "" ]
     INSTANCEIDSARRAY=($INSTANCEIDS)
     for INSTANCEID in ${INSTANCEIDSARRAY[@]};
       do
-      aws elbv2 register-targets 
+      aws elbv2 register-targets --target-group-arn $TARGETARN --targets Id=$INSTANCEID 
       done
   else
     echo "There are no running or pending instances in $INSTANCEIDS to wait for..."
