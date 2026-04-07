@@ -1,0 +1,11 @@
+ami-00de3875b03809ec5
+t3.micro
+module-03-key
+sg-0f152b921474af6ab
+3
+install-env.sh
+module3-tag
+CDE
+CDE
+us-east-1a
+us-east-1b
