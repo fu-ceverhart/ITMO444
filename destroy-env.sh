@@ -8,7 +8,7 @@
 echo "Beginning destroy script for module-02..."
 
 # Collect Instance IDs
-INSTANCEIDS=
+INSTANCEIDS="i-071dd0e6491c477e7 i-02461f80b346277d2 i-0a2f8280804e57cb3"
 
 echo $INSTANCEIDS
 
