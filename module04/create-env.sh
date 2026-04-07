@@ -76,7 +76,12 @@ echo $TARGETARN
 
 echo "Creating ELBv2 Elastic Load Balancer..."
 #https://awscli.amazonaws.com/v2/documentation/api/2.0.34/reference/elbv2/create-load-balancer.html
-ELBARN=
+ELBARN=$(aws elbv2 create-load-balancer \
+  --name $9 \
+  --subnets $SUBNET2A $SUBNET2B \
+  --security-groups $4 \
+  --query "LoadBalancers[*].LoadBalancerArn" \
+  --output=text)
 echo $ELBARN
 
 # Decrease the deregistration timeout (deregisters faster than the default 300 second timeout per instance)
@@ -119,7 +124,10 @@ fi
 
 # Retreive ELBv2 URL via aws elbv2 describe-load-balancers --query and print it to the screen
 #https://awscli.amazonaws.com/v2/documentation/api/latest/reference/elbv2/describe-load-balancers.html
-URL=
+URL=$(aws elbv2 describe-load-balancers \
+  --load-balancer-arns $ELBARN \
+  --query "LoadBalancers[*].DNSName" \
+  --output=text)
 echo $URL
 
 # end of outer fi - based on arguments.txt content
