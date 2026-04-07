@@ -58,10 +58,15 @@ echo $SUBNET2B
 # https://awscli.amazonaws.com/v2/documentation/api/2.0.33/reference/ec2/create-launch-template.html
 echo "Creating the AutoScalingGroup Launch Template..."
 aws ec2 create-launch-template 
+LAUNCHTEMPLATEJSON=$(aws ec2 create-launch-template \
+  --cli-input-json file://$ltconfigfile \
+  --query 'LaunchTemplate.LaunchTemplateId' \
+  --output text)
+
 echo "Launch Template created..."
 
 # Retreive the Launch Template ID using a --query
-LAUNCHTEMPLATEID=
+LAUNCHTEMPLATEID=$LAUNCHTEMPLATEJSON
 
 echo 'Creating the TARGET GROUP and storing the ARN in $TARGETARN'
 # https://awscli.amazonaws.com/v2/documentation/api/2.0.34/reference/elbv2/create-target-group.html
