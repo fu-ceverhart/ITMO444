@@ -25,7 +25,7 @@
 # 16 ASG desired
 # 17 AWS Region for LaunchTemplate (use your default region)
 ##############################################################################
-
+export AWS_PAGER=""
 ltconfigfile="./config.json"
 
 if [ $# = 0 ]
@@ -102,7 +102,11 @@ aws elbv2 wait load-balancer-available
 echo "Load balancer available..."
 # create AWS elbv2 listener for HTTP on port 80
 #https://awscli.amazonaws.com/v2/documentation/api/latest/reference/elbv2/create-listener.html
-aws elbv2 create-listener 
+aws elbv2 create-listener \
+    --load-balancer-arn $ELBARN \
+    --protocol HTTP \
+    --port 80 \
+    --default-actions Type=forward,TargetGroupArn=$TARGETARN
 
 echo 'Creating Auto Scaling Group...'
 # Create Autoscaling group ASG - needs to come after Target Group is created
