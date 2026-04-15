@@ -16,5 +16,5 @@ CDE-module5-asg
 3
 us-east-1
 15
-one-CDE
-two-CDE
+one-cde
+two-cde
