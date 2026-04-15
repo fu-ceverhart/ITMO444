@@ -32,11 +32,11 @@ if [ "$ASGNAMES" != "" ]
 
       aws autoscaling update-auto-scaling-group \
         --auto-scaling-group-name $ASGNAME \
-        --min-size
+        --min-size 0
 
       aws autoscaling update-auto-scaling-group \
       --auto-scaling-group-name $ASGNAME \
-      --desired-capacity
+      --desired-capacity 0
   
      if [ "$INSTANCEIDS" != "" ]
        then
@@ -75,9 +75,9 @@ if [ "$INSTANCEIDS" != "" ]
     for INSTANCEID in ${INSTANCEIDSARRAY[@]};
       do
       echo "Deregistering target $INSTANCEID..."
-      aws elbv2 deregister-targets 
+      aws elbv2 deregister-targets --target-group-arn $TARGETARN --targets Id=$INSTANCEID
       echo "Waiting for target $INSTANCEID to be deregistered..."
-      aws elbv2 wait target-deregistered 
+      aws elbv2 wait target-deregistered --target-group-arn $TARGETARN --targets Id=$INSTANCEID
       done
   else
     echo 'There are no running or pending values in $INSTANCEIDS to wait for...'
@@ -85,7 +85,7 @@ fi
 
 echo "Looking up ELB ARN..."
 # https://awscli.amazonaws.com/v2/documentation/api/2.0.34/reference/elbv2/describe-load-balancers.html
-ELBARN=
+ELBARN=$(aws elbv2 describe-load-balancers --query "LoadBalancers[*].LoadBalancerArn" --output=text)
 echo $ELBARN
 
 # Collect ListenerARN
@@ -121,12 +121,12 @@ if [ "$ELBARN" = "" ];
 else
   echo "Issuing Command to delete Load Balancer..."
   # https://awscli.amazonaws.com/v2/documentation/api/2.0.34/reference/elbv2/delete-load-balancer.html
-  aws elbv2 delete-load-balancer 
+  aws elbv2 delete-load-balancer --load-balancer-arn $ELBARN
   echo "Load Balancer delete command has been issued..."
 
   echo "Waiting for ELB: $ELBARN to be deleted..."
   # https://awscli.amazonaws.com/v2/documentation/api/2.0.34/reference/elbv2/wait/load-balancers-deleted.html#examples
-  aws elbv2 wait load-balancers-deleted 
+  aws elbv2 wait load-balancers-deleted --load-balancer-arns $ELBARN
   echo "ELB: $ELBARN deleted..." 
 fi
 
@@ -142,7 +142,7 @@ else
     for ASGNAME in ${ASGNAMESARRAY[@]};
       do
       echo "Deleting $ASGNAME..."
-      aws autoscaling delete-auto-scaling-group 
+      aws autoscaling delete-auto-scaling-group --auto-scaling-group-name $ASGNAME --force-delete
       echo "Deleted $ASGNAME..."
       done
 # End of if for checking on ASGs
@@ -164,37 +164,20 @@ else
 fi 
 
 # Query for bucket names, delete objects then buckets
-MYS3BUCKETS=$(aws s3api list-buckets )
-MYS3BUCKETS_ARRAY=($MYS3BUCKETS)
+# https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3api/list-buckets.html
+MYS3BUCKETS=$(aws s3api list-buckets --query 'Buckets[*].Name' --output text)
 
 #check for if list of buckets is non-zero (populated)
 if [ -n "$MYS3BUCKETS" ]
-  then 
-    echo "Looping through array of buckets to create array of objects..."
-    for j in "${MYS3BUCKETS_ARRAY[@]}"
+  then
+    for j in $MYS3BUCKETS
     do
-    MYKEYS=$(aws s3api list-objects-v2 )
-    MYKEYS_ARRAY=($MYKEYS)
-    echo "End of looping through array of buckets..."
-
-    echo "Looping through array of objects to delete them..."
-      for k in "${MYKEYS_ARRAY[@]}"
-      do
-      echo "Deleting object $k in bucket $j..."
-      aws s3api delete-object 
-      aws s3api wait object-not-exists 
-      echo "Deleted object $k in bucket $j..."
-      done
+      echo "Deleting all objects and bucket: $j..."
+      # https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3/rb.html
+      aws s3 rb s3://$j --force
+      echo "Deleted bucket: $j..."
     done
-
-    for l in "${MYS3BUCKETS_ARRAY[@]}"
-    do
-    echo "Deleting bucket $l..."
-    aws s3api delete-bucket 
-    aws s3api wait bucket-not-exists 
-    echo "Deleted bucket $l..."
-    done
-  else  
+  else
     echo "There seems to be no buckets present -- did you run create-env.sh?"
 # end of s3 deletion block
-fi 
+fi
