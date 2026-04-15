@@ -153,7 +153,7 @@ echo "Created S3 bucket: ${20}..."
 
 # S3 commands
 # https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3/index.html
-# Upload illinoistech.png and rohit.jpg to bucket ${19}
+# Upload all 4 images to bucket ${19}
 echo "Uploading image: ./images/illinoistech.png to s3://${19}..."
 aws s3 cp ./images/illinoistech.png s3://${19}/illinoistech.png
 echo "Uploaded image: ./images/illinoistech.png to s3://${19}..."
@@ -162,17 +162,22 @@ echo "Uploading image: ./images/rohit.jpg to s3://${19}..."
 aws s3 cp ./images/rohit.jpg s3://${19}/rohit.jpg
 echo "Uploaded image: ./images/rohit.jpg to s3://${19}..."
 
+echo "Uploading image: ./images/elevate.webp to s3://${19}..."
+aws s3 cp ./images/elevate.webp s3://${19}/elevate.webp
+echo "Uploaded image: ./images/elevate.webp to s3://${19}..."
+
+echo "Uploading image: ./images/ranking.jpg to s3://${19}..."
+aws s3 cp ./images/ranking.jpg s3://${19}/ranking.jpg
+echo "Uploaded image: ./images/ranking.jpg to s3://${19}..."
+
 echo "Listing content of bucket: s3://${19}..."
 aws s3 ls s3://${19}
 
-# Upload ranking.jpg and elevate.webp to bucket ${20}
-echo "Uploading image: ./images/elevate.webp to s3://${20}..."
-aws s3 cp ./images/elevate.webp s3://${20}/elevate.webp
-echo "Uploaded image: ./images/elevate.webp to s3://${20}..."
-
-echo "Uploading image: ./images/ranking.jpg to s3://${20}..."
-aws s3 cp ./images/ranking.jpg s3://${20}/ranking.jpg
-echo "Uploaded image: ./images/ranking.jpg to s3://${20}..."
+# Sync bucket ${19} to bucket ${20}
+# https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3/sync.html
+echo "Syncing s3://${19} to s3://${20}..."
+aws s3 sync s3://${19} s3://${20}
+echo "Sync complete..."
 
 echo "Listing content of bucket: s3://${20}..."
 aws s3 ls s3://${20}
