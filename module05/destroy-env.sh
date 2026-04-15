@@ -4,6 +4,7 @@
 # This assignment requires you to destroy the Cloud assets you created
 # Remember to set you default output to text in the aws config command
 ##############################################################################
+export AWS_PAGER=""
 ltconfigfile="./config.json"
 
 echo "Beginning destroy script for module-05 assessment..."
@@ -57,7 +58,7 @@ fi
 
 echo "Finding TARGETARN..."
 # https://awscli.amazonaws.com/v2/documentation/api/2.0.34/reference/elbv2/describe-target-groups.html
-TARGETARN=$(aws elbv2 describe-target-groups --query "TargetGroups[*].TargetGroupArn")
+TARGETARN=$(aws elbv2 describe-target-groups --query "TargetGroups[*].TargetGroupArn" --output text)
 if [ "$TARGETARN" != "" ]
   then
     echo "Found TargetARN: $TARGETARN..."
