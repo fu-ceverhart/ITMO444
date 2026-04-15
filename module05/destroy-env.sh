@@ -164,37 +164,20 @@ else
 fi 
 
 # Query for bucket names, delete objects then buckets
-MYS3BUCKETS=$(aws s3api list-buckets )
-MYS3BUCKETS_ARRAY=($MYS3BUCKETS)
+# https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3api/list-buckets.html
+MYS3BUCKETS=$(aws s3api list-buckets --query 'Buckets[*].Name' --output text)
 
 #check for if list of buckets is non-zero (populated)
 if [ -n "$MYS3BUCKETS" ]
-  then 
-    echo "Looping through array of buckets to create array of objects..."
-    for j in "${MYS3BUCKETS_ARRAY[@]}"
+  then
+    for j in $MYS3BUCKETS
     do
-    MYKEYS=$(aws s3api list-objects-v2 )
-    MYKEYS_ARRAY=($MYKEYS)
-    echo "End of looping through array of buckets..."
-
-    echo "Looping through array of objects to delete them..."
-      for k in "${MYKEYS_ARRAY[@]}"
-      do
-      echo "Deleting object $k in bucket $j..."
-      aws s3api delete-object 
-      aws s3api wait object-not-exists 
-      echo "Deleted object $k in bucket $j..."
-      done
+      echo "Deleting all objects and bucket: $j..."
+      # https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3/rb.html
+      aws s3 rb s3://$j --force
+      echo "Deleted bucket: $j..."
     done
-
-    for l in "${MYS3BUCKETS_ARRAY[@]}"
-    do
-    echo "Deleting bucket $l..."
-    aws s3api delete-bucket 
-    aws s3api wait bucket-not-exists 
-    echo "Deleted bucket $l..."
-    done
-  else  
+  else
     echo "There seems to be no buckets present -- did you run create-env.sh?"
 # end of s3 deletion block
-fi 
+fi
