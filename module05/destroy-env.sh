@@ -4,6 +4,7 @@
 # This assignment requires you to destroy the Cloud assets you created
 # Remember to set you default output to text in the aws config command
 ##############################################################################
+export AWS_PAGER=""
 ltconfigfile="./config.json"
 
 echo "Beginning destroy script for module-05 assessment..."
@@ -57,7 +58,7 @@ fi
 
 echo "Finding TARGETARN..."
 # https://awscli.amazonaws.com/v2/documentation/api/2.0.34/reference/elbv2/describe-target-groups.html
-TARGETARN=$(aws elbv2 describe-target-groups --query "TargetGroups[*].TargetGroupArn")
+TARGETARN=$(aws elbv2 describe-target-groups --query "TargetGroups[*].TargetGroupArn" --output text)
 if [ "$TARGETARN" != "" ]
   then
     echo "Found TargetARN: $TARGETARN..."
@@ -95,7 +96,7 @@ echo $ELBARN
     for ELB in ${ELBARNSARRAY[@]};
       do
         echo "Deleting Listener..."
-        LISTENERARN=$(aws elbv2 describe-listeners --load-balancer-arn $ELB --query='Listeners[*].ListenerArn')
+        LISTENERARN=$(aws elbv2 describe-listeners --load-balancer-arn $ELB --query='Listeners[*].ListenerArn' --output text)
         aws elbv2 delete-listener --listener-arn $LISTENERARN
         echo "Listener deleted..."
       done
@@ -132,7 +133,7 @@ fi
 
 echo 'Finding autoscaling groups for deletion...'
 # https://awscli.amazonaws.com/v2/documentation/api/latest/reference/autoscaling/delete-auto-scaling-group.html
-ASGNAMES=$(aws autoscaling describe-auto-scaling-groups --query "AutoScalingGroups[*].AutoScalingGroupName")
+ASGNAMES=$(aws autoscaling describe-auto-scaling-groups --query "AutoScalingGroups[*].AutoScalingGroupName" --output text)
 if [ "$ASGNAMES" = "" ];
 then
   echo "No Autoscaling Groups found..."
