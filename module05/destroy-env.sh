@@ -142,7 +142,7 @@ else
     for ASGNAME in ${ASGNAMESARRAY[@]};
       do
       echo "Deleting $ASGNAME..."
-      aws autoscaling delete-auto-scaling-group 
+      aws autoscaling delete-auto-scaling-group --auto-scaling-group-name $ASGNAME --force-delete
       echo "Deleted $ASGNAME..."
       done
 # End of if for checking on ASGs
