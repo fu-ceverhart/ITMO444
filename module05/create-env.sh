@@ -114,11 +114,11 @@ echo 'Creating Auto Scaling Group...'
 # Create autoscaling group
 # https://awscli.amazonaws.com/v2/documentation/api/latest/reference/autoscaling/create-auto-scaling-group.html
 aws autoscaling create-auto-scaling-group \
-    --auto-scaling-group-name $13 \
+    --auto-scaling-group-name ${13} \
     --launch-template LaunchTemplateId=$LAUNCHTEMPLATEID,Version='$Latest' \
-    --min-size $14 \
-    --max-size $15 \
-    --desired-capacity $16 \
+    --min-size ${14} \
+    --max-size ${15} \
+    --desired-capacity ${16} \
     --vpc-zone-identifier "$SUBNET2A,$SUBNET2B" \
     --target-group-arns $TARGETARN \
     --tags Key=Name,Value=$7
