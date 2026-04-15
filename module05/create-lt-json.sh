@@ -34,6 +34,9 @@ BASECONVERT=$(base64 -w 0 < ${6})
 # We will save it to a variable here named JSON
 # Then write it out to a file -- and then attach it to the --launch-template-data option
 # Otherwise we are running into issues with the dynamic bash variables
+# Add BlockDeviceMappings for adding additional EBS store to each EC2 instance
+# Add IAM profile to EC2 instances to allow S3 communication
+# https://awscli.amazonaws.com/v2/documentation/api/latest/reference/ec2/create-launch-template.html#examples
 
 JSON="{
     \"NetworkInterfaces\": [
@@ -47,6 +50,7 @@ JSON="{
             \"DeleteOnTermination\": true
         }
     ],
+    \"BlockDeviceMappings\":[{\"DeviceName\":\"/dev/sdc\",\"Ebs\":{\"VolumeSize\": ${18}}}],
     \"ImageId\": \"${1}\",
     \"InstanceType\": \"${2}\",
     \"KeyName\": \"${3}\",
