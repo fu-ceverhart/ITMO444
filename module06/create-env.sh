@@ -66,7 +66,7 @@ else
     echo "Creating RDS read-replica instance..."
     echo "******************************************************************************"
     # Append "-read-replica" to the ${22} to create the read-replica name
-    aws rds create-db-instance-read-replica --db-instance-identifier  --source-db-instance-identifier --tags="Key=assessment,Value=${7}"
+    aws rds create-db-instance-read-replica --db-instance-identifier ${22}-read-replica --source-db-instance-identifier ${22} --tags="Key=assessment,Value=${7}"
 
     # https://awscli.amazonaws.com/v2/documentation/api/latest/reference/rds/wait/db-instance-available.html
     echo "******************************************************************************"
