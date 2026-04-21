@@ -74,7 +74,7 @@ else
     echo "This might take another 5-15 minutes..."
     echo "Perhaps check out https://xkcd.com/303/ ..."
     echo "******************************************************************************"
-    aws rds wait db-instance-available --db-instance-identifier 
+    aws rds wait db-instance-available --db-instance-identifier ${22}-read-replica
 
     # Fetching RDS address
     # https://awscli.amazonaws.com/v2/documentation/api/latest/reference/rds/describe-db-instances.html
