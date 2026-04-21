@@ -1,16 +1,16 @@
 ami-00de3875b03809ec5
 t3.micro
 module-04-key
-sg-075940c95f0d4b580
+sg-0bcd94631bbb5d809
 3
 install-env.sh
-module5-tag
+module6-tag
 CDE
 CDE
 us-east-1a
 us-east-1b
-CDE-module5-Launch-Template
-CDE-module5-asg
+CDE-module6-Launch-Template
+CDE-module6-asg
 2
 5
 3
@@ -18,4 +18,5 @@ us-east-1
 15
 one-cde
 two-cde
-
+module06mariasecret
+module06db
