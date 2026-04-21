@@ -57,7 +57,7 @@ else
     echo "Waiting for RDS instance: to be created..."
     echo "This might take around 5-15 minutes..."
     echo "******************************************************************************"
-    aws rds wait db-instance-available --db-instance-identifier
+    aws rds wait db-instance-available --db-instance-identifier ${22}
     echo "******************************************************************************"
     echo "RDS instance created and in the available state..."
     echo "******************************************************************************"
