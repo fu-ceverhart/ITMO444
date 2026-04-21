@@ -29,20 +29,21 @@
 # 21 Secret Name
 # 22 Database Name
 
-SECRET_ID=$(aws secretsmanager list-secrets --filters Key=name,Values=${21} --query 'SecretList[*].ARN')
+export AWS_PAGER=""
+SECRET_ID=$(aws secretsmanager list-secrets --filters Key=name,Values=${21} --query 'SecretList[0].ARN' --output text)
 
 if [ $# = 0 ]
     then
     echo "You don't have enough variables in your arugments.txt, perhaps you forgot to run: bash ./create-secrets.sh \$(< ~/arguments.txt)"
     exit 1
-elif [ "$SECRET_ID" == "" ]
+elif [ -z "$SECRET_ID" ] || [ "$SECRET_ID" = "None" ]
     then
-     echo "You haven't created the secret your named in \$\{21\}..." 
+     echo "You haven't created the secret your named in \$\{21\}..."
      echo "Check to see if you ran the command: bash ./create-secrets.sh \$(< ~/arguments.txt)"
 else
 
-    USERVALUE=$(aws secretsmanager get-secret-value --secret-id $SECRET_ID --output=json | jq '.SecretString' | sed 's/[\\n]//g' | sed 's/^"//g' | sed 's/"$//g' | jq '.user' | sed 's/"//g')
-    PASSVALUE=$(aws secretsmanager get-secret-value --secret-id $SECRET_ID --output=json | jq '.SecretString' | sed 's/[\\n]//g' | sed 's/^"//g' | sed 's/"$//g' | jq '.pass' | sed 's/"//g')
+    USERVALUE=$(aws secretsmanager get-secret-value --secret-id $SECRET_ID --output=json | jq -r '.SecretString | fromjson | .user')
+    PASSVALUE=$(aws secretsmanager get-secret-value --secret-id $SECRET_ID --output=json | jq -r '.SecretString | fromjson | .pass')
 
     # Create RDS instances
     # https://awscli.amazonaws.com/v2/documentation/api/latest/reference/rds/index.html
