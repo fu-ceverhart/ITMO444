@@ -82,7 +82,7 @@ resource "aws_lb" "lb" {
   name               = var.elb-name
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [var.vpc.vpc_security_group_ids]
+  security_groups    = [var.vpc_security_group_ids]
 
   subnets = [data.aws_subnets.subneta.ids[0], data.aws_subnets.subnetb.ids[0]]
   
@@ -110,7 +110,7 @@ resource "aws_lb_target_group" "alb-lb-tg" {
   target_type = "instance"
   port        = 80
   protocol    = "HTTP"
-  vpc_id      = data.aws_vpc.project.id
+  vpc_id      = data.aws_vpc.main.id
 }
 
 ##############################################################################
@@ -196,7 +196,7 @@ resource "aws_autoscaling_group" "bar" {
 resource "aws_autoscaling_attachment" "example" {
   # Wait for lb to be running before attaching to asg
   depends_on  = [aws_lb.lb]
-  autoscaling_group_name = aws_autoscaling_group.asg.id
+  autoscaling_group_name = aws_autoscaling_group.bar.id
   lb_target_group_arn    = aws_lb_target_group.alb-lb-tg.arn
 }
 
