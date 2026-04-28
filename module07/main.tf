@@ -196,8 +196,8 @@ resource "aws_autoscaling_group" "bar" {
 resource "aws_autoscaling_attachment" "example" {
   # Wait for lb to be running before attaching to asg
   depends_on  = [aws_lb.lb]
-  autoscaling_group_name = 
-  lb_target_group_arn    = 
+  autoscaling_group_name = aws_autoscaling_group.asg.id
+  lb_target_group_arn    = aws_lb_target_group.alb-lb-tg.arn
 }
 
 output "alb-lb-tg-arn" {
