@@ -146,6 +146,22 @@ resource "aws_launch_template" "mp1-lt" {
     availability_zone = data.aws_availability_zones.primary.id
   }
 
+  block_device_mappings {
+    device_name = "/dev/xvdb"
+
+    ebs {
+      volume_size = 20
+    }
+  }
+
+  block_device_mappings {
+    device_name = "/dev/xvdc"
+
+    ebs {
+      volume_size = 20
+    }
+  }
+
   network_interfaces {
   subnet_id = data.aws_subnets.subneta.ids[0]
   security_groups = [var.vpc_security_group_ids]
