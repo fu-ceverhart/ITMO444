@@ -11,18 +11,18 @@
 
 # Default types are stings, lists, and maps
 
-variable "imageid" {}
-variable "instance-type" {}
-variable "key-name" {}
-variable "vpc_security_group_ids" {}
-variable "cnt" {}
-variable "install-env-file" {}
-variable "az" { default = ["us-east-2a", "us-east2b", "us-east-2c"] }
-variable "elb-name" {}
-variable "tg-name" {}
-variable "asg-name" {}
-variable "lt-name" {}
+variable "imageid" { default = "ami-00de3875b03809ec5"}
+variable "instance-type" { default = "t3.micro"}
+variable "key-name" { default = "module-04-key"}
+variable "vpc_security_group_ids" { default = "sg-0bcd94631bbb5d809"}
+variable "cnt" { default = 3}
+variable "install-env-file" { default = "install-env.sh"}
+variable "az" { default = ["us-east-1a", "us-east1b", "us-east-1c"] }
+variable "elb-name" { default = "CDE"}
+variable "tg-name" { default = "CDE"}
+variable "asg-name" { default = "CDE-module7-asg"}
+variable "lt-name" { default = "CDE-module7-Launch-Template"}
 variable "min" { default = 2 }
 variable "max" { default = 5 }
 variable "desired" { default = 3 }
-variable "module-tag" {}
+variable "module-tag" { default = "module6-tag"}
