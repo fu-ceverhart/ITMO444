@@ -4,3 +4,4 @@ aws*
 maria.json
 
 *.lock.hcl
+*.tfstate*
