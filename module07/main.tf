@@ -134,32 +134,16 @@ resource "aws_lb_listener" "front_end" {
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template
 ##############################################################################
 resource "aws_launch_template" "mp1-lt" {
-  image_id                             = 
+  image_id                             = var.imageid
   instance_initiated_shutdown_behavior = "terminate"
-  instance_type                        = 
-  key_name                             = 
+  instance_type                        = var.instance-type
+  key_name                             = var.key-name
 
   monitoring {
     enabled = false
   }
   placement {
     availability_zone = data.aws_availability_zones.primary.id
-  }
-  
-  block_device_mappings {
-    device_name = 
-
-    ebs {
-      volume_size = 
-    }
-  }
-
-  block_device_mappings {
-    device_name = 
-
-    ebs {
-      volume_size = 
-    }
   }
 
   network_interfaces {
