@@ -2,3 +2,5 @@
 .env
 aws*
 maria.json
+
+*.lock.hcl
