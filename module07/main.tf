@@ -154,7 +154,7 @@ resource "aws_launch_template" "mp1-lt" {
   tag_specifications {
     resource_type = "instance"
     tags = {
-      Name = 
+      Name = var.module-tag
     }
   }
   user_data = filebase64("./install-env.sh")

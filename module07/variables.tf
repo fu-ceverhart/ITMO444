@@ -25,4 +25,4 @@ variable "lt-name" { default = "CDE-module7-Launch-Template"}
 variable "min" { default = 2 }
 variable "max" { default = 5 }
 variable "desired" { default = 3 }
-variable "module-tag" { default = "module6-tag"}
+variable "module-tag" { default = "module7-tag"}
