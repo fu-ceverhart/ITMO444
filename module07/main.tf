@@ -166,19 +166,19 @@ resource "aws_launch_template" "mp1-lt" {
 ##############################################################################
 
 resource "aws_autoscaling_group" "bar" {
-  name                      = 
+  name                      = var.asg-name
   depends_on                = [aws_launch_template.mp1-lt]
-  desired_capacity          = 
-  max_size                  = 
-  min_size                  = 
+  desired_capacity          = var.desired
+  max_size                  = var.max
+  min_size                  = var.min
   health_check_grace_period = 300
-  health_check_type         = 
+  health_check_type         = "EC2"
   target_group_arns         = [aws_lb_target_group.alb-lb-tg.arn]
   vpc_zone_identifier       = [data.aws_subnets.subneta.ids[0], data.aws_subnets.subnetb.ids[0]]
 
   tag {
     key                 = "assessment"
-    value               = 
+    value               = var.module-tag
     propagate_at_launch = true
   }
 
