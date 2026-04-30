@@ -103,7 +103,8 @@ aws autoscaling create-auto-scaling-group \
 echo 'Waiting for Auto Scaling Group to spin up EC2 instances and attach them to the TargetARN...'
 # Create waiter for registering targets
 # https://docs.aws.amazon.com/cli/latest/reference/elbv2/wait/target-in-service.html
-aws elbv2 wait target-in-service --target-group-arn 
+aws elbv2 wait target-in-service --target-group-arn $TARGETARN
+
 echo "Targets attached to Auto Scaling Group..."
 
 # Collect Instance IDs
