@@ -274,9 +274,10 @@ if len(responseS3['Buckets']) == 2:
     print("S3 bucket found: " + str(responseS3['Buckets'][n]['Name']))
     responseS3list = clients3.list_objects_v2(Bucket=responseS3['Buckets'][n]['Name'])
     if 'Contents' in responseS3list and len(responseS3list['Contents']) == 2:
+      objectCount += len(responseS3list['Contents'])
       print("Correct number of objects, 2, found in S3 bucket ..." + str(responseS3['Buckets'][n]['Name']))
       for k in range(0,len(responseS3list['Contents'])):
-        print("Object:" + str(responseS3list['Contents'][k]['Key']))       
+        print("Object:" + str(responseS3list['Contents'][k]['Key']))
 
     else:
       print("Expecting two object to be found in bucket: " + str(responseS3['Buckets'][n]['Name']) + " , but none were found...")
@@ -372,7 +373,7 @@ tagCorrect = False
 if len(response['DBInstances']) == correctNumberOfRDSInstances:
   for n in range(0,len(response['DBInstances'])):
     print("DBInstance Identifier: " + response['DBInstances'][n]['DBInstanceIdentifier'])
-    if response['DBInstances'][n]['TagList'][0]['Value'] == "module6-tag":
+    if response['DBInstances'][n]['TagList'][0]['Value'] == "module-final-tag":
       print("Your RDS Instance is tagged: " + str(response['DBInstances'][n]['TagList'][0]['Value']))
       tagCorrect = True
     else:
