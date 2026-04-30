@@ -187,7 +187,7 @@ PASSVALUE=$(aws secretsmanager get-secret-value --secret-id $SECRET_ID --output=
 echo "******************************************************************************"
 echo "Creating ${22} RDS instances..."
 echo "******************************************************************************"
-aws rds create-db-instance --db-instance-identifier --db-instance-class db.t3.micro --engine --master-username $USERVALUE --master-user-password $PASSVALUE --allocated-storage --db-name employee_database --tags="Key=assessment,Value=${7}"
+aws rds create-db-instance --db-instance-identifier ${22} --db-instance-class db.t3.micro --engine mysql --master-username $USERVALUE --master-user-password $PASSVALUE --allocated-storage 20 --db-name employee_database --tags="Key=assessment,Value=${7}"
 
 # Add wait command for db-instance available
 # https://awscli.amazonaws.com/v2/documentation/api/latest/reference/rds/wait/db-instance-available.html
