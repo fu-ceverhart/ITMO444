@@ -213,6 +213,7 @@ echo "This might take another 5-15 minutes..."
 echo "Perhaps check out https://xkcd.com/303/ ..."
 echo "******************************************************************************"
 ### !!! CREATE AN AWS RDS WAIT command to wait for the Read-Replica to be in service
+aws rds wait db-instance-available --db-instance-identifier ${22}-read-replica
 
 # Fetching RDS address
 # https://awscli.amazonaws.com/v2/documentation/api/latest/reference/rds/describe-db-instances.html
