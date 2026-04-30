@@ -58,7 +58,7 @@ echo $SUBNET2A
 echo $SUBNET2B
 
 echo "Creating the AutoScalingGroup Launch Template..."
-aws ec2 create-launch-template --launch-template-name  --version-description AutoScalingVersion1 --launch-template-data file://config.json --region
+aws ec2 create-launch-template --launch-template-name ${12} --version-description AutoScalingVersion1 --launch-template-data file://config.json --region ${17}
 echo "Launch Template created..."
 
 # Launch Template Id
