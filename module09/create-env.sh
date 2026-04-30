@@ -123,7 +123,7 @@ fi
 # https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3api/index.html
 echo "Creating S3 bucket: ${19}..."
 aws s3api create-bucket \
-    --bucket \
+    --bucket ${19} \
     --region us-east-1
 echo "Created S3 bucket: ${19}..."
 
@@ -134,7 +134,7 @@ echo "Bucket ${19} is in a ready state..."
 
 echo "Creating S3 bucket: ${20}..."
 aws s3api create-bucket \
-    --bucket \
+    --bucket ${20} \
     --region us-east-1
 echo "Created S3 bucket: ${20}..."
 
