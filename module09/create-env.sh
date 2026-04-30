@@ -177,7 +177,7 @@ aws s3 ls s3://${20}
 URL=$(aws elbv2 describe-load-balancers --load-balancer-arns $ELBARN --query='LoadBalancers[*].DNSName' --output text)
 echo $URL
 
-SECRET_ID=$(aws secretsmanager list-secrets --filters Key=name,Values=${21} --query 'SecretList[*].ARN')
+SECRET_ID=$(aws secretsmanager list-secrets --filters Key=name,Values=${21} --query 'SecretList[0].ARN' --output text)
 
 USERVALUE=$(aws secretsmanager get-secret-value --secret-id $SECRET_ID --output=json | jq '.SecretString' | sed 's/[\\n]//g' | sed 's/^"//g' | sed 's/"$//g' | jq '.user' | sed 's/"//g')
 PASSVALUE=$(aws secretsmanager get-secret-value --secret-id $SECRET_ID --output=json | jq '.SecretString' | sed 's/[\\n]//g' | sed 's/^"//g' | sed 's/"$//g' | jq '.pass' | sed 's/"//g')
