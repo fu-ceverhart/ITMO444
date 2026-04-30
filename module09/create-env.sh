@@ -29,6 +29,8 @@
 # 22 Database Name
 ##############################################################################
 
+export AWS_PAGER=""
+
 ltconfigfile="./config.json"
 
 if [ $# = 0 ]
