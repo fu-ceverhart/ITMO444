@@ -96,7 +96,7 @@ aws autoscaling create-auto-scaling-group \
     --min-size ${14} \
     --max-size ${15} \
     --desired-capacity ${16} \
-    --availability-zones ${10} ${11} \
+    --vpc-zone-identifier "$SUBNET2A,$SUBNET2B" \
     --health-check-type EC2 \
     --tags "ResourceId=${13},ResourceType=auto-scaling-group,Key=assessment,Value=${7},PropagateAtLaunch=true" 
 
