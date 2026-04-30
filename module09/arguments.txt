@@ -4,13 +4,13 @@ module-04-key
 sg-0bcd94631bbb5d809
 3
 install-env.sh
-module6-tag
+module-final-tag
 CDE
 CDE
 us-east-1a
 us-east-1b
-CDE-module6-Launch-Template
-CDE-module6-asg
+CDE-module-final-Launch-Template
+CDE-module-final-asg
 2
 5
 3
@@ -18,5 +18,5 @@ us-east-1
 15
 one-cde
 two-cde
-module06mariasecret
-module06db
+modulefinalsecret
+modulefinalsecret
