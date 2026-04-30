@@ -71,7 +71,7 @@ echo $TARGETARN
 
 echo "Creating ELBv2 Elastic Load Balancer..."
 #https://awscli.amazonaws.com/v2/documentation/api/2.0.34/reference/elbv2/create-load-balancer.html
-ELBARN=$(aws elbv2 create-load-balancer --name  --security-groups  --subnets  --query='')
+ELBARN=$(aws elbv2 create-load-balancer --name ${9} --security-groups ${4} --subnets $SUBNET2A $SUBNET2B --query='LoadBalancers[*].LoadBalancerArn' --output text)
 echo $ELBARN
 
 # AWS elbv2 wait for load-balancer available
